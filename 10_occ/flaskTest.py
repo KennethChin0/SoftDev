@@ -1,11 +1,21 @@
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__) #create instance of class FLASK
 #
 @app.route("/") #assign following fxn to run when rotting route requested
 def hello_world():
     print ("HI")#runs in terminal when page is reloaded
     print(__name__)#prints __main__
-    return "Welcome"#prints it on the webpage
+    file = open("static/index.html" , "r")
+    return file.read()
+# 
+# @app.route("/my_foist_template")
+# def test_tmplt():
+#     # collection = {0,1,1,2,3,5,8}
+#     return render_template(
+#     'model_tmplt/html',
+#     foo="fooooo",
+#     collection=coll
+#     )
 
 @app.route("/cheese") #add /cheese to end of url to run
 def cheese():
