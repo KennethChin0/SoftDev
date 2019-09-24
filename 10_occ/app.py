@@ -5,9 +5,7 @@ app = Flask(__name__) #create instance of class FLASK
 @app.route("/") #assign following fxn to run when rotting route requested
 def hello_world():
     print ("HI")#runs in terminal when page is reloaded
-    print(__name__)#prints __main__
-    file = open("index.html" , "r")
-    return file.read()
+    return ("hi")
 
 # @app.route("/my_foist_template")
 # def test_tmplt():
