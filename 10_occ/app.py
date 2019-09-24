@@ -1,7 +1,12 @@
+
 from flask import Flask, render_template
 import random
 app = Flask(__name__) #create instance of class FLASK
-#ADDD HEADING
+# Marxist_ZhengJ_ChinK
+# Kenneth Chin
+# SoftDev1 pd09
+# Template flask app
+# 2019-09-19
 @app.route("/") #assign following fxn to run when rotting route requested
 def hello_world():
     print ("HI")#runs in terminal when page is reloaded
