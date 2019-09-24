@@ -10,7 +10,7 @@ app = Flask(__name__) #create instance of class FLASK
 @app.route("/") #assign following fxn to run when rotting route requested
 def hello_world():
     print ("HI")#runs in terminal when page is reloaded
-    return ("hi")
+    return "Hey there"
 
 # @app.route("/my_foist_template")
 # def test_tmplt():
@@ -51,7 +51,7 @@ def occpuyflaskst():
     coll = MakeArray("occupations.csv")
     # coll = {0,1,1,2,3,5,8}
     return render_template(
-    'occupations.html',
+    'occupations.html', foo = "Marxist",
     collection = coll, job = MakeDict(coll)
     )
 
