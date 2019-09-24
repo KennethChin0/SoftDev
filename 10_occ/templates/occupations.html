@@ -5,10 +5,12 @@
     </head>
     <body>
     <h1> Random occupation generator</h1>
-    <p> This is a paragraph</p>
-
+    <p> This page generates a random job based on the given data.</p>
+    <p> Team Marxist: Jason Zheng & Kenenth Chin </p>
+    <p> Your Job is: {{job}} </p>
+    <br>
   {% for item in collection %}
-      {{item}}
-  !-- {% endfor %}
+      {{item[0] + " " + item[1]}}
+      <br> {% endfor %}
     </body>
 </html>
