@@ -37,6 +37,22 @@ def pokeapi():
         ability2 = data['abilities'][0]['ability']['name'])
 
 
+@app.route("/bike")
+def bike():
+    u = urllib.request.urlopen("http://api.citybik.es/v2/networks/nu-connect")
+    response = u.read()
+    data = json.loads(response)
+    data = data['network']
+    location = data['location']
+    company = data["company"]
+    return render_template("bike.html", name = company[0],
+                        city = location['city'],
+                        country = location['country'],
+                        latitude = location['latitude'],
+                        longitude = location['longitude'],
+                        nm = data['name'])
+
+
 
 
 
