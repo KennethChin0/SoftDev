@@ -14,7 +14,7 @@ var stop = false;
 var draw = function(e) {
     ctx.beginPath();
     if (stop){
-      run = setInterval(draw, 3);
+      run = setInterval(draw, 20);
       stop = false;
     }
     if (grow){
@@ -41,12 +41,12 @@ var clean = function(e){
 
 
 var clear = function(e){
-  console.log("here");
+  // console.log("here");
   clearInterval(run)
   stop = true;
 }
 
-var run = setInterval(draw, 3);
+var run = setInterval(draw, 20);
 var button = document.getElementById('Start');
 button.addEventListener("click", draw);
 var button1 = document.getElementById('Stop');
