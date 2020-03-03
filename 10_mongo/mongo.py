@@ -21,8 +21,8 @@ if (events.count() == 0):
             item = json.loads(item) #load object
             events.insert_one(item) #insert into database
 
-# for item in events.find({}).limit(20):
-#     print(item)
+#for item in events.find({}):
+ #    print(item["date"])
 
 def display_categories():
     category_one = set()
@@ -34,32 +34,37 @@ def display_categories():
                 category_one.add(value)
     print(category_one)
 
-display_categories()
 
-def display_locations():
-    places = set()
-    for item in events.find($or: [{'category1': 'by place'}, {'category1': 'by places'}, {'category1': 'by area'}, {'category1': 'by region'}, {'category1': 'by location'}], {'_id': 0, 'category2': 1}):
-        item = dict(item)
-        if item:
-            value = item.get('category2').lower()
-            if "by" in value:
-                places.add(value)
-    print(places)
 
-display_locations()
+#def display_locations():
+#    places = set()
+#    for item in events.find($or: [{'category1': 'by place'}, {'category1': 'by places'}, {'category1': 'by area'}, {'category1': 'by region'}, {'category1': 'by location'}], {'_id': 0, 'category2': 1}):
+#        item = dict(item)
+#        if item:
+#            value = item.get('category2').lower()
+#            if "by" in value:
+#                places.add(value)
+#    print(places)
 
-def get_by_place():
-    print("HELLO WORLD")
-    results = category.find()
+#display_locations()
+
+def get_by_place(location):
+    results = events.find({"category2" : location})
+    print ("Place: {}".format(location))
+    print()
+    for x in results: 
+       print("Place:"  + x["category2"] + "\nEvent:" + x["description"])
+
+get_by_place("Egypt")	
 
 def get_by_year(year):
-    '''All restaurants in a specified borough.'''
-    results = events.find({ "date": year })
-    print("Events: {}".format(borough))
+    results = events.find({ "date": {'$regex' : str(year)} })
+    print("Date: {}".format(year))
     print("Results Found: {}".format(results.count()))
     print()
     for x in results:
-      print(x["name"])
+      print("Date:" + x["date"] + "\nEvent:" + x["description"])
+#get_by_year(2000)
 
 def get_by_topic():
     print("HELLO WORLD")
