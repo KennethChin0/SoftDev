@@ -1,7 +1,16 @@
-#Kenneth Chin, Jackie Lin
+#Kenneth Chin, Jackie Lin (Team Croissants)
 #SoftDev1 pd1
 #K10 -- Import/Export Bank
 #2020-03-04
+
+'''The dataset we used is called the Historical Events API from Vizgr. It contains a list of events in history (in English), with each result
+containing a date, a description, a category. Each event is categorized either by location or by topic. Within these broad categories, each event may
+also fall under subcategories. For example, an event categorized by location may fall under the subcategory 'Egypt'. The raw data is hosted at
+http://www.vizgr.org/historical-events/search.php?format=json&begin_date=-3000000&end_date=20151231&lang=en. The dataset was imported into the database
+through a series of steps. Since all the events were contained within a key-value pair called 'results', the file was first spliced to return only the
+string of the list of events (for easier parsing). Since the dataset was not separated by newlines but each entry started with the word 'events', the dataset was split
+using the word 'events'. Then, one by one, the items in this list were formatted (removed extra commas) and json.loads() was used to turn it into a dictionary
+that was then inserted into the Mongo database.'''
 
 import json
 from pymongo import MongoClient
@@ -21,56 +30,50 @@ if (events.count() == 0):
             item = json.loads(item) #load object
             events.insert_one(item) #insert into database
 
-#for item in events.find({}):
- #    print(item["date"])
-
-def display_categories():
-    category_one = set()
-    for item in events.find({}, {'_id': 0, 'category1': 1}):
-        item = dict(item)
-        if item:
-            value = item.get('category1').lower()
-            if "by" in value:
-                category_one.add(value)
-    print(category_one)
-
-
-
-#def display_locations():
-#    places = set()
-#    for item in events.find($or: [{'category1': 'by place'}, {'category1': 'by places'}, {'category1': 'by area'}, {'category1': 'by region'}, {'category1': 'by location'}], {'_id': 0, 'category2': 1}):
-#        item = dict(item)
-#        if item:
-#            value = item.get('category2').lower()
-#            if "by" in value:
-#                places.add(value)
-#    print(places)
-
-#display_locations()
-
 def get_by_place(location):
+    '''Returns all events that happened in a certain region'''
     results = events.find({"category2" : location})
-    print ("Place: {}".format(location))
+    print ("Querying place: {}".format(location))
     print()
-    for x in results: 
-       print("Place:"  + x["category2"] + "\nEvent:" + x["description"])
-
-get_by_place("Egypt")	
+    for x in results:
+       print("Place: "  + x["category2"] + "\nEvent: " + x["description"])
+       print()
 
 def get_by_year(year):
+    '''Returns all events that happened in a certain year'''
     results = events.find({ "date": {'$regex' : str(year)} })
-    print("Date: {}".format(year))
+    print("Querying date: {}".format(year))
     print("Results Found: {}".format(results.count()))
     print()
     for x in results:
-      print("Date:" + x["date"] + "\nEvent:" + x["description"])
-#get_by_year(2000)
+      print("Date: " + x["date"] + "\nEvent: " + x["description"])
+      print()
 
-def get_by_topic():
-    print("HELLO WORLD")
+def get_by_topic(topic):
+    '''Returns all events that fall under a certain topic'''
+    regex = "(\w*%s\w*)" % topic
+    query = {"category2":{"$regex": regex, "$options": "i"}}
+    results = events.find(query)
+    print("Querying topic: {}".format(topic))
+    print("Results Found: {}".format(results.count()))
+    print()
+    for x in results:
+      print("Topic: " + x["category2"] + "\nEvent: " + x["description"])
+      print()
 
-def get_by_keyword():
-    print("HELLO WORLD")
+def get_by_keyword(keyword):
+    '''Returns all events with given keyword in their description'''
+    regex = "(\w*%s\w*)" % keyword
+    query = {"description":{"$regex": regex, "$options": "i"}}
+    results = events.find(query)
+    print("Querying keyword: {}".format(keyword))
+    print("Results Found: {}".format(results.count()))
+    print()
+    for x in results:
+      print("Date: " + x["date"] + "\nEvent: " + x["description"])
+      print()
 
-def input_timeline():
-    print("HELLO WORLD")
+get_by_place("Egypt")
+get_by_year(2000)
+get_by_topic("arts")
+get_by_keyword("dante")
