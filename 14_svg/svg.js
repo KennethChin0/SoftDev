@@ -1,4 +1,8 @@
 var pic = document.getElementById("vimage");
+var circleID, x, y;
+deltax = 1;
+deltay = 1;
+var requestID;
 
 var drawRandom = function(e){
   console.log("hello");
@@ -15,6 +19,8 @@ var draw = function(e) {
       c.setAttribute("r", 15);
       c.setAttribute("fill", "black");
       c.setAttribute("stroke", "black");
+      c.setAttribute("dirX", 1);
+      c.setAttribute("dirY", 1);
       c.addEventListener("click", function() {
           if (c.getAttribute("fill") == "black"){
             c.setAttribute("fill","cyan");
@@ -29,36 +35,50 @@ var draw = function(e) {
   }
 }
 
+
 var move= function(){
 	window.cancelAnimationFrame(requestID);
-	window.cancelAnimationFrame(dvdId);
-	clear()
+	// window.cancelAnimationFrame(dvdId);
+	clear();
 	x += deltax;
 	y += deltay;
-	//console.log(dvdX);
-	if (x + 50 == c.width || x + 2 == 0){
+	var allCircles = document.getElementsByTagName("circle");
+  for (var x = 0; x < allCircles.length; x++){
+  var circle = allCircles[x];
+  var x1 = parseInt(circle.getAttribute("cx"));
+  var y1 = parseInt(circle.getAttribute("cy"));
+	if (x + 50 == x1 || x + 2 == 0){
 		deltax = -1 * deltax;
 		//console.log(dvdX);
 	}
-	if (y + 43 == c.height || y + 7 == 0){
+	if (y + 43 == y1 || y + 7 == 0){
 		deltay = -1 * deltay;
 		//console.log(dvdY);
 	}
-	draw();
+	circle.setAttribute("cx", x);
+  circle.setAttribute("cy", y);
+  circle.setAttribute("dirX", deltax);
+  circle.setAttribute("dirY", deltay);
   console.log("d  ")
+}
 	dvdId = window.requestAnimationFrame(move);
 }
 
 var clear = function(e) {
-  while (pic.lastChild){
-    pic.removeChild(pic.lastChild);
-  }
+  window.cancelAnimationFrame(requestID);
 }
 
 pic.addEventListener("click", draw)
 
+var stop = function(e){
+  window.cancelAnimationFrame(requestID);
+}
 
 var clearButton = document.getElementById("clear");
 clearButton.addEventListener("click", clear);
-var moveButton = document,getElementById("move";)
-moveButton.addEventListener("click", function(e){move(); draw()});
+
+var moveButton = document.getElementById("move");
+moveButton.addEventListener("click", function(e){move()});
+
+var stopButton = document.getElementById("stop");
+stopButton.addEventListener("stop", stop);
