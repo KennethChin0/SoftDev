@@ -1,0 +1,19 @@
+v1
+Prediction: Every time the user clicks, there is a popup alert
+Observations: Every time I click on a specific name in the table, there
+is a popup alert of the name that is clicked on.
+
+v2
+Prediction: Every time the user clicks, the names pop in order from left to right
+Observations: Every time I click, the name pops up, then the alert changes
+to the html of the table of the selected row, then the whole table
+
+v3
+Prediction: It will have the same nature as v2, except it will pop up once the user opens the page
+Observations: Instead of showing the name first, it shows the html of the table as a whole
+then the name, then the row
+
+v4
+Prediction: Since everything is true, I am not sure what will get priority when clicked.
+Observations: It goes from the table html to row html to the name. When e.stopPropagation()
+is uncommentted, only the table html shows. So order doesn't matter.
