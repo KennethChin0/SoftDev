@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--D3 demo: prelude-->
+<!--
+    Yields a horizontal bar chart:
+    steelblue bars, white number overlays indicating (width in px)*10
+  -->
+<!--
+    Kenneth Chin
+    SoftDev2 pd1
+    2020-04-02
+  -->
+
+
+<style>
+  .chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+  }
+</style>
+
+<div class="chart">
+  <div style="width: 40px;">4</div>
+  <div style="width: 80px;">8</div>
+  <div style="width: 150px;">15</div>
+  <div style="width: 160px;">16</div>
+  <div style="width: 230px;">23</div>
+  <div style="width: 420px;">42</div>
+</div>
+
+<!--
+  Comments and Observations:
+  Since the char class tag is outside of each individual div of the numbers and bars,
+  each bar will take the attributes of the things specified in the chart class.
+  This is why the font and color of each number is sans-serif and the bars are all steelbar
+  color and the margins are all the same.
+
+
+-->
